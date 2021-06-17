@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.systemsgs.mercadolivre.dto.ModelUsuarioDTO;
 import br.com.systemsgs.mercadolivre.model.ModelUsuario;
 import br.com.systemsgs.mercadolivre.service.UsuarioService;
 
@@ -20,8 +21,8 @@ public class UsuarioController {
 	private UsuarioService usuarioService;
 	
 	@PostMapping(value = "/salvar")
-	public ResponseEntity<?> salvaUsuario(@RequestBody @Valid ModelUsuario modelUsuario) {
-		usuarioService.salvaUsuario(modelUsuario);
+	public ResponseEntity<?> salvaUsuario(@RequestBody @Valid ModelUsuarioDTO modelUsuarioDTO) {
+		usuarioService.salvaUsuario(modelUsuarioDTO);
 		
 		return ResponseEntity.ok("Usuário Salvo com Sucesso!!!");
 	}
