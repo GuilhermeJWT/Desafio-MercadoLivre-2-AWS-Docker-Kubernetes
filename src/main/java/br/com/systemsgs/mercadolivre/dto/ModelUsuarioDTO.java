@@ -5,6 +5,8 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.Length;
 
+import br.com.systemsgs.mercadolivre.model.ModelUsuario;
+
 public class ModelUsuarioDTO {
 	
 	@Email(message = "Formato de E-mail Inválido, Informe Outro!!!")
@@ -14,6 +16,10 @@ public class ModelUsuarioDTO {
 	@Length(min = 6, message = "A Senha deve conter pelomenos 6 Caracteres!!!")
 	@NotBlank(message = "A Senha deve ser Informada!!!")
 	private String senha;
+	
+	public ModelUsuario converter() {
+		return new ModelUsuario(this.login, new SenhaCriptografadaDTO(senha));
+	}
 
 	public String getLogin() {
 		return login;

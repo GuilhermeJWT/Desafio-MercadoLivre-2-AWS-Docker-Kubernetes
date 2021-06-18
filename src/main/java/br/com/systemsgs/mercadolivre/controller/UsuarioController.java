@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.systemsgs.mercadolivre.dto.ModelUsuarioDTO;
-import br.com.systemsgs.mercadolivre.model.ModelUsuario;
 import br.com.systemsgs.mercadolivre.service.UsuarioService;
 
 @RestController

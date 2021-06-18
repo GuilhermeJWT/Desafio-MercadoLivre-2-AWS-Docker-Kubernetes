@@ -13,6 +13,8 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.Length;
 
+import br.com.systemsgs.mercadolivre.dto.SenhaCriptografadaDTO;
+
 @Entity
 @Table(name = "usuario")
 public class ModelUsuario implements Serializable {
@@ -31,6 +33,16 @@ public class ModelUsuario implements Serializable {
 	private String senha;
 
 	private LocalDateTime instanteCadastro = LocalDateTime.now();
+	
+	public ModelUsuario(String login,SenhaCriptografadaDTO senha) {
+		this.login = login;
+		this.senha = senha.criptografaSenha();
+	}
+	
+	@Deprecated
+	public ModelUsuario() {
+		
+	}
 
 	public Long getId() {
 		return id;
