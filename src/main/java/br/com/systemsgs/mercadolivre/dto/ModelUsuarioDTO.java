@@ -5,10 +5,12 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.Length;
 
+import br.com.systemsgs.mercadolivre.annotation.GenericUniqueColumn;
 import br.com.systemsgs.mercadolivre.model.ModelUsuario;
 
 public class ModelUsuarioDTO {
 	
+	@GenericUniqueColumn(domainClass = ModelUsuario.class, fieldName = "login", message = "Login já Cadastrado, Informe Outro!!!")
 	@Email(message = "Formato de E-mail Inválido, Informe Outro!!!")
 	@NotBlank(message = "O Login deve ser Informado!!!")
 	private String login;
