@@ -34,5 +34,11 @@ public class ExceptionHandlerControllerAdvice {
 	public RestApiErrorsException recursoNaoEncontradoException(RecursoNaoEncontradoException recursoNaoEncontrado) {
 		return new RestApiErrorsException(recursoNaoEncontrado.getMessage());
 	}
+	
+	@ExceptionHandler(InvalidJwtAuthenticationException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public RestApiErrorsException invalidAuthenticationException(InvalidJwtAuthenticationException invalidJwtAuthenticationException) {
+		return new RestApiErrorsException(invalidJwtAuthenticationException.getMessage());
+	}
 
 }

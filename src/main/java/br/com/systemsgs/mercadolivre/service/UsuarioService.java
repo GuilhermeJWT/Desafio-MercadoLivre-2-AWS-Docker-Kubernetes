@@ -3,15 +3,19 @@ package br.com.systemsgs.mercadolivre.service;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.com.systemsgs.mercadolivre.config.DozerConverter;
 import br.com.systemsgs.mercadolivre.dto.ModelUsuarioDTO;
+import br.com.systemsgs.mercadolivre.exception.UsuarioNaoEncontradoException;
 import br.com.systemsgs.mercadolivre.model.ModelUsuario;
 import br.com.systemsgs.mercadolivre.repository.UsuarioRepository;
 
 @Service
-public class UsuarioService{
+public class UsuarioService implements UserDetailsService{
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
@@ -28,7 +32,6 @@ public class UsuarioService{
 		return usuarioConvertido;
 	}
 
-	/*
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		var usuario = usuarioRepository.findByLogin(username);
@@ -36,9 +39,8 @@ public class UsuarioService{
 		if(usuario != null) {
 			return usuario;
 		}else {
-			throw new UsuarioNaoEncontradoException("Usuário ou Senha Inválidos!!!");
+			throw new UsuarioNaoEncontradoException();
 		}
 	}
-	*/
 	
 }
