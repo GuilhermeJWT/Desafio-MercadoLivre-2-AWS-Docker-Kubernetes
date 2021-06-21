@@ -16,7 +16,6 @@ import br.com.systemsgs.mercadolivre.service.UsuarioService;
 @RequestMapping(value = "/api/usuario")
 public class UsuarioController {
 	
-	
 	@Autowired
 	private UsuarioService usuarioService;
 	

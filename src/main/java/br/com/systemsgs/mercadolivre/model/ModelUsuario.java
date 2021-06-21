@@ -1,21 +1,20 @@
 package br.com.systemsgs.mercadolivre.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -27,7 +26,7 @@ import br.com.systemsgs.mercadolivre.dto.SenhaCriptografadaDTO;
 
 @Entity
 @Table(name = "usuario")
-public class ModelUsuario implements UserDetails{
+public class ModelUsuario implements UserDetails, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -44,21 +43,37 @@ public class ModelUsuario implements UserDetails{
 	private String senha;
 
 	private LocalDateTime instanteCadastro = LocalDateTime.now();
+
+	private Boolean accountNonExpired;
+
+	private Boolean accountNonLocked;
+
+	private Boolean credentialsNonExpired;
+
+	private Boolean enabled;
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "role", joinColumns = {@JoinColumn (name = "id_user")},inverseJoinColumns = {@JoinColumn (name = "id_role")})
+	private List<ModelRole> permissoes;
 	
-	@OneToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "usuario_role", uniqueConstraints = @UniqueConstraint(columnNames = {"usuario_id", "role_id"}, name = "unique_role_user")
-	, joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id", table = "usuario", foreignKey = @ForeignKey(name = "usuario_fk", value = ConstraintMode.CONSTRAINT))
-	, inverseJoinColumns = @JoinColumn (name = "role_id", referencedColumnName = "id", table = "role", foreignKey = @ForeignKey(name = "role_fk", value = ConstraintMode.CONSTRAINT)))
-	private List<ModelRole>roles;
-	
-	public ModelUsuario(String login,SenhaCriptografadaDTO senha) {
+	public List<String> getRoles(){
+		List<String> roles = new ArrayList<>();
+		
+		for (ModelRole permissoesUser : this.permissoes) {
+			roles.add(permissoesUser.getNomeRole());
+		}
+		
+		return roles;
+	}
+
+	public ModelUsuario(String login, SenhaCriptografadaDTO senha) {
 		this.login = login;
 		this.senha = senha.criptografaSenha();
 	}
-	
+
 	@Deprecated
 	public ModelUsuario() {
-		
+
 	}
 
 	public Long getId() {
@@ -84,9 +99,53 @@ public class ModelUsuario implements UserDetails{
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
+
 	public LocalDateTime getInstanteCadastro() {
 		return instanteCadastro;
+	}
+
+	public Boolean getAccountNonExpired() {
+		return accountNonExpired;
+	}
+
+	public void setAccountNonExpired(Boolean accountNonExpired) {
+		this.accountNonExpired = accountNonExpired;
+	}
+
+	public Boolean getAccountNonLocked() {
+		return accountNonLocked;
+	}
+
+	public void setAccountNonLocked(Boolean accountNonLocked) {
+		this.accountNonLocked = accountNonLocked;
+	}
+
+	public Boolean getCredentialsNonExpired() {
+		return credentialsNonExpired;
+	}
+
+	public void setCredentialsNonExpired(Boolean credentialsNonExpired) {
+		this.credentialsNonExpired = credentialsNonExpired;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public List<ModelRole> getPermissoes() {
+		return permissoes;
+	}
+
+	public void setPermissoes(List<ModelRole> permissoes) {
+		this.permissoes = permissoes;
+	}
+
+	public void setInstanteCadastro(LocalDateTime instanteCadastro) {
+		this.instanteCadastro = instanteCadastro;
 	}
 
 	@Override
@@ -95,6 +154,41 @@ public class ModelUsuario implements UserDetails{
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
+	}
+	
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return this.permissoes;
+	}
+
+	@Override
+	public String getPassword() {
+		return this.senha;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.login;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return this.accountNonExpired;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return this.accountNonLocked;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return this.credentialsNonExpired;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return this.enabled;
 	}
 
 	@Override
@@ -111,41 +205,6 @@ public class ModelUsuario implements UserDetails{
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		return true;
-	}
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return roles;
-	}
-
-	@Override
-	public String getPassword() {
-		return this.senha;
-	}
-
-	@Override
-	public String getUsername() {
-		return this.login;
-	}
-
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled() {
 		return true;
 	}
 

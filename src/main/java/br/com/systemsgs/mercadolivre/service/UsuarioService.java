@@ -11,10 +11,14 @@ import br.com.systemsgs.mercadolivre.model.ModelUsuario;
 import br.com.systemsgs.mercadolivre.repository.UsuarioRepository;
 
 @Service
-public class UsuarioService {
+public class UsuarioService{
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+
+	public UsuarioService(UsuarioRepository usuarioRepository) {
+		this.usuarioRepository = usuarioRepository;
+	}
 
 	@Transactional
 	public ModelUsuarioDTO salvaUsuario(ModelUsuarioDTO modelUsuarioDTO) {
@@ -23,5 +27,18 @@ public class UsuarioService {
 		
 		return usuarioConvertido;
 	}
+
+	/*
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		var usuario = usuarioRepository.findByLogin(username);
+		
+		if(usuario != null) {
+			return usuario;
+		}else {
+			throw new UsuarioNaoEncontradoException("Usuário ou Senha Inválidos!!!");
+		}
+	}
+	*/
 	
 }
