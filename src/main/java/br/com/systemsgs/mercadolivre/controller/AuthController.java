@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.systemsgs.mercadolivre.dto.ModelUsuarioDTO;
+import br.com.systemsgs.mercadolivre.dto.CredentialsUserDTO;
 import br.com.systemsgs.mercadolivre.jwt.JwtTokenProvider;
 import br.com.systemsgs.mercadolivre.repository.UsuarioRepository;
 
@@ -28,19 +28,32 @@ import br.com.systemsgs.mercadolivre.repository.UsuarioRepository;
 public class AuthController {
 	
 	@Autowired
-	private AuthenticationManager authenticationManager;
+	AuthenticationManager authenticationManager;
 	
 	@Autowired
-	private JwtTokenProvider tokenProvider;
+	JwtTokenProvider tokenProvider;
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
+	
+	public AuthController(@Autowired AuthenticationManager authenticationManager, JwtTokenProvider tokenProvider,UsuarioRepository usuarioRepository) {
+		this.authenticationManager = authenticationManager;
+		this.tokenProvider = tokenProvider;
+		this.usuarioRepository = usuarioRepository;
+	}
+	
+
 	@PostMapping(value = "/autenticar")
-	public ResponseEntity autenticaUsuario(@RequestBody @Valid ModelUsuarioDTO modelUsuarioDTO) {
+	public ResponseEntity autenticaUsuario(@RequestBody @Valid CredentialsUserDTO credentialsUserDTO) {
 		try {
-			var login = modelUsuarioDTO.getLogin();
-			var senha = modelUsuarioDTO.getSenha();
+			var login = credentialsUserDTO.getLogin();
+			var senha = credentialsUserDTO.getSenha();
+			
+			var usuarioLogado2 = usuarioRepository.findByLogin(login);
+			
+			System.out.println(usuarioLogado2.getLogin());
+			System.out.println(usuarioLogado2.getSenha());
 			
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login, senha));
 			var usuarioLogado = usuarioRepository.findByLogin(login);
@@ -59,6 +72,7 @@ public class AuthController {
 			
 			return ok(map);
 		}catch (AuthenticationException exception) {
+			exception.printStackTrace();
 			throw new BadCredentialsException("Usuário ou Senha Inválidos!!!");
 		}
 	}

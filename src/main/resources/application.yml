@@ -7,8 +7,19 @@ spring:
     username: keycloak
     password: keycloak
     driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 20000
+      minimum-idle: 10
+      maximum-pool-size: 40
+      idle-timeout: 10000
+      auto-commit: true
+      
   jpa:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQL9Dialect
     show-sql: true
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false

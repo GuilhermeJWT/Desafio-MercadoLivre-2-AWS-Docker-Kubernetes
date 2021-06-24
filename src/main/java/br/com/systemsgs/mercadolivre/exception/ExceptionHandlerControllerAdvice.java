@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 
 @RestControllerAdvice
 public class ExceptionHandlerControllerAdvice {
@@ -40,5 +42,13 @@ public class ExceptionHandlerControllerAdvice {
 	public RestApiErrorsException invalidAuthenticationException(InvalidJwtAuthenticationException invalidJwtAuthenticationException) {
 		return new RestApiErrorsException(invalidJwtAuthenticationException.getMessage());
 	}
-
+	
+	/*
+	@ExceptionHandler(Exception.class)
+	public final ResponseEntity<RestApiErrorsException> lancaExceptionAll(Exception ex, WebRequest request){
+		RestApiErrorsException restApiErrosException = new RestApiErrorsException(ex.getMessage());
+		return new ResponseEntity<>(restApiErrosException, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	*/
+	
 }
