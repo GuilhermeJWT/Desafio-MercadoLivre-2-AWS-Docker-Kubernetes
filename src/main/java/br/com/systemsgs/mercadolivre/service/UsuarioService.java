@@ -3,10 +3,12 @@ package br.com.systemsgs.mercadolivre.service;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import br.com.systemsgs.mercadolivre.config.DozerConverter;
 import br.com.systemsgs.mercadolivre.dto.ModelUsuarioDTO;
@@ -31,6 +33,14 @@ public class UsuarioService implements UserDetailsService{
 		
 		return usuarioConvertido;
 	}
+	
+	@Transactional
+	public void deleteUsuario(Long id) {
+		usuarioRepository.findById(id).map(usuario -> {
+			usuarioRepository.delete(usuario);
+			return usuario;
+		}).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não Encontrada!!!"));
+	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -42,5 +52,4 @@ public class UsuarioService implements UserDetailsService{
 			throw new UsuarioNaoEncontradoException();
 		}
 	}
-	
 }
