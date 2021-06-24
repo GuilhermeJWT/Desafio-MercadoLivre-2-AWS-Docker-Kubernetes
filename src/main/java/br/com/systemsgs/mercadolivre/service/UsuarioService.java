@@ -39,7 +39,7 @@ public class UsuarioService implements UserDetailsService{
 		usuarioRepository.findById(id).map(usuario -> {
 			usuarioRepository.delete(usuario);
 			return usuario;
-		}).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não Encontrada!!!"));
+		}).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não Encontrado!!!"));
 	}
 
 	@Override
