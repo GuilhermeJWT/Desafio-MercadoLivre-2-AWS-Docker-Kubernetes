@@ -1,6 +1,7 @@
 package br.com.systemsgs.mercadolivre.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "produto")
@@ -25,18 +31,27 @@ public class ModelProduto implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotBlank(message = "O Nome deve ser Informado!!!")
 	private String nome;
 	
+	@Length(min = 0, message = "A Quantidade deve ser Maior ou Igual a 0 !!!")
+	@NotNull(message = "A Quantidade deve ser Informada!!!")
 	private int quantidade;
 	
+	@Length(max = 1000, message = "A Descrição deve ter no Máximo 1000 Caracteres!!!")
+	@NotBlank(message = "A Descrição deve ser Informada!!!")
 	private String descricao;
 	
 	private LocalDateTime instanteCadastro = LocalDateTime.now();
 	
+	@Positive(message = "O Valor deve ser Maior que 0 !!!")
+	@NotNull(message = "O Valor deve ser Informado!!!")
+	private BigDecimal valor;
+	
 	@OneToMany(mappedBy = "produto", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<ModelCaracteristica> caracteristicas = new ArrayList<>();
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(optional = false ,cascade = CascadeType.ALL)
 	private ModelCategoria categoria;
 
 	public Long getId() {
@@ -69,6 +84,14 @@ public class ModelProduto implements Serializable{
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	
+	public BigDecimal getValor() {
+		return valor;
+	}
+	
+	public void setValor(BigDecimal valor) {
+		this.valor = valor;
 	}
 
 	public LocalDateTime getInstanteCadastro() {

@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.ForeignKey;
 
@@ -23,8 +24,10 @@ public class ModelCaracteristica implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotBlank(message = "O Nome deve ser Informado!!!")
 	private String nome;
 	
+	@NotBlank(message = "A Descrição deve ser Informada!!!")
 	private String descricao;
 	
 	@JsonIgnore
