@@ -1,5 +1,7 @@
 package br.com.systemsgs.mercadolivre.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,10 @@ public class CategoriaService {
 		var categoriaConvertida = DozerConverter.converteEntidade(categoriaRepository.save(modelCategoria), ModelCategoriaDTO.class);
 		
 		return categoriaConvertida;
+	}
+
+	public List<ModelCategoria> listarTodasCategorias() {
+		return categoriaRepository.findAll();
 	}
 
 }
