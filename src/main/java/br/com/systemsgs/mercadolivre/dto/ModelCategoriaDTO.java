@@ -2,10 +2,17 @@ package br.com.systemsgs.mercadolivre.dto;
 
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.hateoas.ResourceSupport;
+
+import com.github.dozermapper.core.Mapping;
+
 import br.com.systemsgs.mercadolivre.annotation.GenericUniqueColumn;
 import br.com.systemsgs.mercadolivre.model.ModelCategoria;
 
-public class ModelCategoriaDTO {
+public class ModelCategoriaDTO extends ResourceSupport{
+	
+	@Mapping(value = "id")
+	private Long key;
 	
 	@GenericUniqueColumn(domainClass = ModelCategoria.class, fieldName = "nome", message = "Nome da Categoria já Cadastrado, Informe Outro!!!")
 	@NotBlank(message = "O Nome da Categoria deve ser Informado!!!")
@@ -21,6 +28,14 @@ public class ModelCategoriaDTO {
 	@Deprecated
 	public ModelCategoriaDTO() {
 		
+	}
+	
+	public Long getKey() {
+		return key;
+	}
+	
+	public void setKey(Long key) {
+		this.key = key;
 	}
 
 	public String getNome() {

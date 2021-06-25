@@ -1,5 +1,8 @@
 package br.com.systemsgs.mercadolivre.controller;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 import java.util.List;
 
 import javax.validation.Valid;
@@ -42,6 +45,14 @@ public class CategoriaController {
 	@DeleteMapping(value = "/delete/{id}")
 	public void deletaCategoria(@PathVariable("id") Long id) {
 		categoriaService.deletaCategoria(id);
+	}
+	
+	@GetMapping(value = "/pesquisaPorId/{id}")
+	public ModelCategoriaDTO pesquisaPorId(@PathVariable("id") Long id) {
+		ModelCategoriaDTO modelCategoriaDTO = categoriaService.pesquisaPorId(id);
+		modelCategoriaDTO.add(linkTo(methodOn(CategoriaController.class).pesquisaPorId(id)).withSelfRel());
+		
+		return modelCategoriaDTO;
 	}
 
 }

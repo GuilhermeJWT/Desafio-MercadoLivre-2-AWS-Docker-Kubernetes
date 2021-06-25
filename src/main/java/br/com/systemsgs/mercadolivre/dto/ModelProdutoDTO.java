@@ -9,10 +9,16 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.hateoas.ResourceSupport;
+
+import com.github.dozermapper.core.Mapping;
 
 import br.com.systemsgs.mercadolivre.model.ModelCaracteristica;
 
-public class ModelProdutoDTO {
+public class ModelProdutoDTO extends ResourceSupport{
+	
+	@Mapping(value = "id")
+	private Long key;
 	
 	@NotBlank(message = "O Nome deve ser Informado!!!")
 	private String nome;
@@ -33,18 +39,17 @@ public class ModelProdutoDTO {
 	
 	private List<ModelCaracteristica> caracteristicas = new ArrayList<>();
 	
-	public ModelProdutoDTO(String nome, int quantidade, String descricao, BigDecimal valor,List<ModelCaracteristica> caracteristicas, Long categoria) {
-		this.nome = nome;
-		this.quantidade = quantidade;
-		this.descricao = descricao;
-		this.valor = valor;
-		this.caracteristicas = caracteristicas;
-		this.categoria = categoria;
-	}
-	
 	@Deprecated
 	public ModelProdutoDTO() {
 		
+	}
+	
+	public Long getKey() {
+		return key;
+	}
+	
+	public void setKey(Long key) {
+		this.key = key;
 	}
 
 	public String getNome() {

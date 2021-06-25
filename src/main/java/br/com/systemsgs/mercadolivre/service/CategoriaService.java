@@ -5,13 +5,13 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.systemsgs.mercadolivre.config.DozerConverter;
 import br.com.systemsgs.mercadolivre.dto.ModelCategoriaDTO;
-import br.com.systemsgs.mercadolivre.exception.RecursoNaoEncontradoException;
 import br.com.systemsgs.mercadolivre.model.ModelCategoria;
 import br.com.systemsgs.mercadolivre.repository.CategoriaRepository;
 
@@ -39,6 +39,11 @@ public class CategoriaService {
 			categoriaRepository.delete(categoria);
 			return categoria;
 		}).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria não Encontrada!!!"));
+	}
+
+	public ModelCategoriaDTO pesquisaPorId(Long id) {
+		var modelCategoria = categoriaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Categoria não Encontrada!!!"));
+		return DozerConverter.converteEntidade(modelCategoria, ModelCategoriaDTO.class);
 	}
 
 }

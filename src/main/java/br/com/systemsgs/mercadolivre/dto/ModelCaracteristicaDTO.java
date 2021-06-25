@@ -1,18 +1,28 @@
-package br.com.systemsgs.mercadolivre.model;
+package br.com.systemsgs.mercadolivre.dto;
 
 import javax.validation.constraints.NotBlank;
 
-public class ModelCaracteristicaDTO {
+import org.springframework.hateoas.ResourceSupport;
 
+import com.github.dozermapper.core.Mapping;
+
+public class ModelCaracteristicaDTO extends ResourceSupport{
+
+	@Mapping(value = "id")
+	private Long key;
+	
 	@NotBlank(message = "O Nome deve ser Informado!!!")
 	private String nome;
 
 	@NotBlank(message = "A Descrição deve ser Informada!!!")
 	private String descricao;
-
-	public ModelCaracteristicaDTO(String nome, String descricao) {
-		this.nome = nome;
-		this.descricao = descricao;
+	
+	public Long getKey() {
+		return key;
+	}
+	
+	public void setKey(Long key) {
+		this.key = key;
 	}
 
 	public String getDescricao() {
