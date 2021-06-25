@@ -27,6 +27,7 @@ public class EnableWebSecurityConfiguration extends WebSecurityConfigurerAdapter
 		.antMatchers("/api/usuario/**").permitAll()
 		.antMatchers("/api/categoria/**").permitAll()
 		.antMatchers("/api/caracteristica/**").permitAll()
+		.antMatchers("/api/produto/**").permitAll()
 		.and().apply(new JwtTokenConfigurer(tokenProvider));
 	}
 

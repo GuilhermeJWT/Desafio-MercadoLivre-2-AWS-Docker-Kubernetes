@@ -23,36 +23,50 @@ import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "produto")
-public class ModelProduto implements Serializable{
+public class ModelProduto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotBlank(message = "O Nome deve ser Informado!!!")
 	private String nome;
-	
-	@Length(min = 0, message = "A Quantidade deve ser Maior ou Igual a 0 !!!")
+
+	//@Length(min = 0, message = "A Quantidade deve ser Maior ou Igual a 0 !!!")
 	@NotNull(message = "A Quantidade deve ser Informada!!!")
 	private int quantidade;
-	
+
 	@Length(max = 1000, message = "A Descrição deve ter no Máximo 1000 Caracteres!!!")
 	@NotBlank(message = "A Descrição deve ser Informada!!!")
 	private String descricao;
-	
+
 	private LocalDateTime instanteCadastro = LocalDateTime.now();
-	
+
 	@Positive(message = "O Valor deve ser Maior que 0 !!!")
 	@NotNull(message = "O Valor deve ser Informado!!!")
 	private BigDecimal valor;
-	
+
 	@OneToMany(mappedBy = "produto", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<ModelCaracteristica> caracteristicas = new ArrayList<>();
-	
-	@OneToOne(optional = false ,cascade = CascadeType.ALL)
+
+	@OneToOne(optional = false, cascade = CascadeType.ALL)
 	private ModelCategoria categoria;
+
+	public ModelProduto(String nome, int quantidade, String descricao, BigDecimal valor,List<ModelCaracteristica> caracteristicas, ModelCategoria categoria) {
+		this.nome = nome;
+		this.quantidade = quantidade;
+		this.descricao = descricao;
+		this.valor = valor;
+		this.caracteristicas = caracteristicas;
+		this.categoria = categoria;
+	}
+	
+	@Deprecated
+	public ModelProduto() {
+		
+	}
 
 	public Long getId() {
 		return id;
@@ -85,11 +99,11 @@ public class ModelProduto implements Serializable{
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
+
 	public BigDecimal getValor() {
 		return valor;
 	}
-	
+
 	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
@@ -142,5 +156,5 @@ public class ModelProduto implements Serializable{
 			return false;
 		return true;
 	}
-	
+
 }

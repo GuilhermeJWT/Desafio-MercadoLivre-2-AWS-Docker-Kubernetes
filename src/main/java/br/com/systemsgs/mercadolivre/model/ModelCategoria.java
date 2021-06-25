@@ -24,6 +24,11 @@ public class ModelCategoria implements Serializable{
 	
 	private Long idMae;
 	
+	public ModelCategoria(String nome, Long idMae) {
+		this.nome = nome;
+		this.idMae = idMae;
+	}
+
 	@Deprecated
 	public ModelCategoria() {
 		

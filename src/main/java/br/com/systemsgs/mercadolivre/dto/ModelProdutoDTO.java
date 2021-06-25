@@ -1,6 +1,8 @@
 package br.com.systemsgs.mercadolivre.dto;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -8,12 +10,14 @@ import javax.validation.constraints.Positive;
 
 import org.hibernate.validator.constraints.Length;
 
+import br.com.systemsgs.mercadolivre.model.ModelCaracteristica;
+
 public class ModelProdutoDTO {
 	
 	@NotBlank(message = "O Nome deve ser Informado!!!")
 	private String nome;
 	
-	@Length(min = 0, message = "A Quantidade deve ser Maior ou Igual a 0 !!!")
+	//@Length(min = 0, message = "A Quantidade deve ser Maior ou Igual a 0 !!!")
 	@NotNull(message = "A Quantidade deve ser Informada!!!")
 	private int quantidade;
 	
@@ -25,8 +29,23 @@ public class ModelProdutoDTO {
 	@NotNull(message = "O Valor deve ser Informado!!!")
 	private BigDecimal valor;
 	
-	@NotNull(message = "A Categoria deve ser Informada!!!")
-	private Long idCategoria;
+	private Long categoria;
+	
+	private List<ModelCaracteristica> caracteristicas = new ArrayList<>();
+	
+	public ModelProdutoDTO(String nome, int quantidade, String descricao, BigDecimal valor,List<ModelCaracteristica> caracteristicas, Long categoria) {
+		this.nome = nome;
+		this.quantidade = quantidade;
+		this.descricao = descricao;
+		this.valor = valor;
+		this.caracteristicas = caracteristicas;
+		this.categoria = categoria;
+	}
+	
+	@Deprecated
+	public ModelProdutoDTO() {
+		
+	}
 
 	public String getNome() {
 		return nome;
@@ -59,13 +78,21 @@ public class ModelProdutoDTO {
 	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
-
-	public Long getIdCategoria() {
-		return idCategoria;
+	
+	public Long getCategoria() {
+		return categoria;
 	}
-
-	public void setIdCategoria(Long idCategoria) {
-		this.idCategoria = idCategoria;
+	
+	public void setCategoria(Long categoria) {
+		this.categoria = categoria;
+	}
+	
+	public List<ModelCaracteristica> getCaracteristicas() {
+		return caracteristicas;
+	}
+	
+	public void setCaracteristicas(List<ModelCaracteristica> caracteristicas) {
+		this.caracteristicas = caracteristicas;
 	}
 	
 }

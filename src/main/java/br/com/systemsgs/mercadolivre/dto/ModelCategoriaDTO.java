@@ -12,6 +12,16 @@ public class ModelCategoriaDTO {
 	private String nome;
 	
 	private Long idMae;
+	
+	public ModelCategoriaDTO(String nome, Long idMae) {
+		this.nome = nome;
+		this.idMae = idMae;
+	}
+	
+	@Deprecated
+	public ModelCategoriaDTO() {
+		
+	}
 
 	public String getNome() {
 		return nome;
