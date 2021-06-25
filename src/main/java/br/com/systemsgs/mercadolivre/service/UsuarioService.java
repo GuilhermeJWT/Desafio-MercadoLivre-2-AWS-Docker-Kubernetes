@@ -1,5 +1,7 @@
 package br.com.systemsgs.mercadolivre.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,5 +59,9 @@ public class UsuarioService implements UserDetailsService{
 	public ModelUsuarioDTO pesquisaPorId(Long id) {
 		var modelUsuario = usuarioRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Usuário não Encontrado!!!"));
 		return DozerConverter.converteEntidade(modelUsuario, ModelUsuarioDTO.class);
+	}
+
+	public List<ModelUsuarioDTO> listaTodos() {
+		return DozerConverter.converteList(usuarioRepository.findAll(), ModelUsuarioDTO.class);
 	}
 }

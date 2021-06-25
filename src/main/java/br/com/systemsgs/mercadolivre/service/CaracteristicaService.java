@@ -1,5 +1,7 @@
 package br.com.systemsgs.mercadolivre.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,15 @@ public class CaracteristicaService {
 	public ModelCaracteristicaDTO pesquisaPorId(Long id) {
 		var modelCaracteristica = caracteristicaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Caracteristica não Encontrada!!!"));
 		return DozerConverter.converteEntidade(modelCaracteristica, ModelCaracteristicaDTO.class);
+	}
+
+	public List<ModelCaracteristicaDTO> listaCaracteristica() {
+		return DozerConverter.converteList(caracteristicaRepository.findAll(), ModelCaracteristicaDTO.class);
+	}
+
+	public void deletaCaracteristica(Long id) {
+		ModelCaracteristica modelCaracteristica = caracteristicaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Caracteristica não Encontrada!!!"));
+		caracteristicaRepository.delete(modelCaracteristica);
 	}
 
 }

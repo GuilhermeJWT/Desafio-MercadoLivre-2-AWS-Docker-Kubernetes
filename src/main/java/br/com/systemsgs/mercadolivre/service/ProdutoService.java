@@ -1,5 +1,7 @@
 package br.com.systemsgs.mercadolivre.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,15 @@ public class ProdutoService {
 	public ModelProdutoDTO pesquisaPorId(Long id) {
 		var modelProduto = produtoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Produto não Encontrado!!!"));
 		return DozerConverter.converteEntidade(modelProduto, ModelProdutoDTO.class);
+	}
+
+	public List<ModelProdutoDTO> listaTodos() {
+		return DozerConverter.converteList(produtoRepository.findAll(), ModelProdutoDTO.class);
+	}
+
+	public void deleteProduto(Long id) {
+		ModelProduto modelProduto = produtoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Produto não Encontrado!!!"));
+		produtoRepository.delete(modelProduto);
 	}
 
 }

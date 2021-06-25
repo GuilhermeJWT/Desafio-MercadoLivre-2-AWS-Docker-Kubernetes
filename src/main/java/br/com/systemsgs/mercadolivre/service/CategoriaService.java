@@ -29,8 +29,8 @@ public class CategoriaService {
 		return categoriaConvertida;
 	}
 
-	public List<ModelCategoria> listarTodasCategorias() {
-		return categoriaRepository.findAll();
+	public List<ModelCategoriaDTO> listarTodasCategorias() {
+		return DozerConverter.converteList(categoriaRepository.findAll(), ModelCategoriaDTO.class);
 	}
 	
 	@Transactional
