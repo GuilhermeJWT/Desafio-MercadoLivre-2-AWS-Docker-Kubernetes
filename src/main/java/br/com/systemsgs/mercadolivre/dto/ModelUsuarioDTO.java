@@ -4,12 +4,18 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.hateoas.ResourceSupport;
+
+import com.github.dozermapper.core.Mapping;
 
 import br.com.systemsgs.mercadolivre.annotation.GenericUniqueColumn;
 import br.com.systemsgs.mercadolivre.model.ModelUsuario;
 
-public class ModelUsuarioDTO {
-
+public class ModelUsuarioDTO extends ResourceSupport{
+	
+	@Mapping(value = "id")
+	private Long key;
+	
 	@GenericUniqueColumn(domainClass = ModelUsuario.class, fieldName = "login", message = "Login já Cadastrado, Informe Outro!!!")
 	@Email(message = "Formato de E-mail Inválido, Informe Outro!!!")
 	@NotBlank(message = "O Login deve ser Informado!!!")
@@ -22,7 +28,15 @@ public class ModelUsuarioDTO {
 	public ModelUsuario converter() {
 		return new ModelUsuario(this.login, new SenhaCriptografadaDTO(senha));
 	}
-
+	
+	public Long getKey() {
+		return key;
+	}
+	
+	public void setKey(Long key) {
+		this.key = key;
+	}
+	
 	public String getLogin() {
 		return login;
 	}

@@ -3,6 +3,7 @@ package br.com.systemsgs.mercadolivre.service;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -51,5 +52,10 @@ public class UsuarioService implements UserDetailsService{
 		}else {
 			throw new UsuarioNaoEncontradoException();
 		}
+	}
+
+	public ModelUsuarioDTO pesquisaPorId(Long id) {
+		var modelUsuario = usuarioRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Usuário não Encontrado!!!"));
+		return DozerConverter.converteEntidade(modelUsuario, ModelUsuarioDTO.class);
 	}
 }
