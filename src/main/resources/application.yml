@@ -2,6 +2,9 @@ server:
   port: 8080
 
 spring:
+  application:
+    name: mercado-livre
+    
   datasource:
     url: jdbc:postgresql://localhost:5432/mercadolivre
     username: keycloak
