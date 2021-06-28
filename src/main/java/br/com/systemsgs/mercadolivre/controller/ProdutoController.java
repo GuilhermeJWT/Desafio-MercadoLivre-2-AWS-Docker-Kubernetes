@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.systemsgs.mercadolivre.dto.ModelProdutoDTO;
 import br.com.systemsgs.mercadolivre.service.ProdutoService;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value = "/api/produto")
@@ -29,8 +30,8 @@ public class ProdutoController {
 	@Autowired
 	private ProdutoService produtoService;
 	
+	@ApiOperation(value = "Endpoint Salva um Produto")
 	@PostMapping(value = "/salvar")
-	@Transactional
 	public ModelProdutoDTO salvaProduto(@RequestBody @Valid ModelProdutoDTO modelProdutoDTO) {
 		ModelProdutoDTO produtoDTO = produtoService.salvaProduto(modelProdutoDTO);
 		produtoDTO.add(linkTo(methodOn(ProdutoController.class).pesquisaPorId(produtoDTO.getKey())).withSelfRel());
@@ -38,6 +39,7 @@ public class ProdutoController {
 		return produtoDTO;
 	}
 	
+	@ApiOperation(value = "Endpoint Lista todos Produtos")
 	@Cacheable(value = "cache-produtos")
 	@GetMapping(value = "/listaTodos")
 	public List<ModelProdutoDTO> listaTodos() {
@@ -47,6 +49,7 @@ public class ProdutoController {
 		return produtos;
 	}
 	
+	@ApiOperation(value = "Endpoint Pesquisa por Id Produto")
 	@Cacheable(value = "cache-pesquisa-produto")
 	@GetMapping(value = "/pesquisaPorId/{id}")
 	public ModelProdutoDTO pesquisaPorId(@PathVariable("id") Long id) {
@@ -56,6 +59,7 @@ public class ProdutoController {
 		return modelProdutoDTO;
 	}
 	
+	@ApiOperation(value = "Endpoint Deleta por Id Produto")
 	@DeleteMapping(value = "/delete/{id}")
 	public ResponseEntity<?> deleteProduto (@PathVariable("id") Long id){
 		produtoService.deleteProduto(id);

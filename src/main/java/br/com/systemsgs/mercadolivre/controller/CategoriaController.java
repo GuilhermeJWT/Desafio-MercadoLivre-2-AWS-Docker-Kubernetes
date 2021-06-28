@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.systemsgs.mercadolivre.dto.ModelCategoriaDTO;
 import br.com.systemsgs.mercadolivre.service.CategoriaService;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value = "/api/categoria")
@@ -27,6 +28,7 @@ public class CategoriaController {
 	@Autowired
 	private CategoriaService categoriaService;
 	
+	@ApiOperation(value = "Endpoint Salva uma Categoria")
 	@PostMapping(value = "/salvar")
 	public ModelCategoriaDTO salvaCategoria(@RequestBody @Valid ModelCategoriaDTO modelCategoriaDTO){
 		ModelCategoriaDTO categoriaDTO = categoriaService.salvaCategoria(modelCategoriaDTO);
@@ -35,6 +37,7 @@ public class CategoriaController {
 		return categoriaDTO;
 	}
 	
+	@ApiOperation(value = "Endpoint Lista todas Categorias")
 	@Cacheable(value = "cache-categoria")
 	@GetMapping(value = "/listarTodas")
 	public List<ModelCategoriaDTO> listaCategoria(){
@@ -44,6 +47,7 @@ public class CategoriaController {
 		return categorias;
 	}
 	
+	@ApiOperation(value = "Endpoint Pesquisa por Id Categoria")
 	@Cacheable(value = "cache-pesquisa-categoria")
 	@GetMapping(value = "/pesquisaPorId/{id}")
 	public ModelCategoriaDTO pesquisaPorId(@PathVariable("id") Long id) {
@@ -53,6 +57,7 @@ public class CategoriaController {
 		return modelCategoriaDTO;
 	}
 	
+	@ApiOperation(value = "Endpoint Deleta por Id Categoria")
 	@DeleteMapping(value = "/delete/{id}")
 	public void deletaCategoria(@PathVariable("id") Long id) {
 		categoriaService.deletaCategoria(id);

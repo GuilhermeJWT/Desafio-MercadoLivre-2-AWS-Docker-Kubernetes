@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.systemsgs.mercadolivre.dto.ModelUsuarioDTO;
 import br.com.systemsgs.mercadolivre.service.UsuarioService;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value = "/api/usuario")
@@ -28,6 +29,7 @@ public class UsuarioController {
 	@Autowired
 	private UsuarioService usuarioService;
 	
+	@ApiOperation(value = "Endpoint Salva um Usuário")
 	@PostMapping(value = "/salvar")
 	public ResponseEntity<?> salvaUsuario(@RequestBody @Valid ModelUsuarioDTO modelUsuarioDTO) {
 		ModelUsuarioDTO usuario = usuarioService.salvaUsuario(modelUsuarioDTO);
@@ -36,6 +38,7 @@ public class UsuarioController {
 		return ResponseEntity.ok("Usuário Salvo com Sucesso!!!");
 	}
 	
+	@ApiOperation(value = "Endpoint Lista todos Usuários")
 	@Cacheable(value = "cache-usuarios")
 	@GetMapping(value = "/listaTodos")
 	public List<ModelUsuarioDTO> listaTodos(){
@@ -45,6 +48,7 @@ public class UsuarioController {
 		return usuarios;
 	}
 	
+	@ApiOperation(value = "Endpoint Pesquisa por Id Usuário")
 	@Cacheable(value = "cache-pesquisa-usuario")
 	@GetMapping(value = "/pesquisaPorId/{id}")
 	public ModelUsuarioDTO pesquisaPorId(@PathVariable("id") Long id) {
@@ -54,6 +58,7 @@ public class UsuarioController {
 		return modelUsuarioDTO;
 	}
 	
+	@ApiOperation(value = "Endpoint Deleta por Id Usuário")
 	@DeleteMapping(value = "/delete/{id}")
 	public ResponseEntity<?> deleteUsuario(@PathVariable("id") Long id) {
 		usuarioService.deleteUsuario(id);

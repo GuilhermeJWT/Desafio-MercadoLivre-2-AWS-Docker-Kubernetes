@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.systemsgs.mercadolivre.dto.ModelCaracteristicaDTO;
 import br.com.systemsgs.mercadolivre.service.CaracteristicaService;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value = "/api/caracteristica")
@@ -28,6 +29,7 @@ public class CaracteristicaController {
 	@Autowired
 	private CaracteristicaService caracteristicaService;
 	
+	@ApiOperation(value = "Endpoint Salvar uma Caracteristica")
 	@PostMapping(value = "/salvar")
 	public ModelCaracteristicaDTO salvaCaracteristica(@RequestBody @Valid ModelCaracteristicaDTO modelCaracteristicaDTO){
 		ModelCaracteristicaDTO caracteristicaDTO = caracteristicaService.salvaCaracteristica(modelCaracteristicaDTO);
@@ -36,6 +38,7 @@ public class CaracteristicaController {
 		return caracteristicaDTO;
 	}
 	
+	@ApiOperation(value = "Endpoint Listar todas Caracteristicas")
 	@Cacheable(value = "cache-caracteristica")
 	@GetMapping(value = "/listaTodas")
 	public List<ModelCaracteristicaDTO> listaCaracteristicas(){
@@ -45,6 +48,7 @@ public class CaracteristicaController {
 		return caracteristicas;
 	}
 	
+	@ApiOperation(value = "Endpoint Pesquisa por Id Caracteristica")
 	@Cacheable(value = "cache-pesquisa-caracteristica")
 	@GetMapping(value = "/pesquisaPorId/{id}")
 	public ModelCaracteristicaDTO pesquisaPorId(@PathVariable("id") Long id) {
@@ -54,6 +58,7 @@ public class CaracteristicaController {
 		return modelCaracteristicaDTO;
 	}
 	
+	@ApiOperation(value = "Endpoint Deleta uma Caracteristica por Id")
 	@DeleteMapping(value = "/delete/{id}")
 	public ResponseEntity<?> deletaCaracteristica(@PathVariable("id") Long id){
 		caracteristicaService.deletaCaracteristica(id);

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.systemsgs.mercadolivre.dto.CredentialsUserDTO;
 import br.com.systemsgs.mercadolivre.jwt.JwtTokenProvider;
 import br.com.systemsgs.mercadolivre.repository.UsuarioRepository;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value = "/api/auth")
@@ -44,6 +45,7 @@ public class AuthController {
 	}
 	
 
+	@ApiOperation(value = "Endpoint Autenticar")
 	@PostMapping(value = "/autenticar")
 	public ResponseEntity autenticaUsuario(@RequestBody @Valid CredentialsUserDTO credentialsUserDTO) {
 		try {
