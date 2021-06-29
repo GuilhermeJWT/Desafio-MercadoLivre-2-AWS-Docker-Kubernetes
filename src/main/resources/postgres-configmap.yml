@@ -1,0 +1,7 @@
+apiVersion: v1
+kinda: ConfigMap
+metadata:
+  name: postgres-conf
+data:
+  host: postgres
+  name: employeedb
