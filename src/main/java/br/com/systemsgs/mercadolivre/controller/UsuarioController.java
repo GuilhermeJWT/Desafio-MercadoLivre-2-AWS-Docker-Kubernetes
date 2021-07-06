@@ -40,7 +40,7 @@ public class UsuarioController {
 	
 	@ApiOperation(value = "Endpoint Lista todos Usuários")
 	@Cacheable(value = "cache-usuarios")
-	@GetMapping(value = "/listaTodos")
+	@GetMapping(value = "/listaTodos", produces = {"application/json", "application/xml"})
 	public List<ModelUsuarioDTO> listaTodos(){
 		List<ModelUsuarioDTO> usuarios = usuarioService.listaTodos();
 		usuarios.stream().forEach(u -> u.add(linkTo(methodOn(UsuarioController.class).pesquisaPorId(u.getKey())).withSelfRel()));
@@ -50,7 +50,7 @@ public class UsuarioController {
 	
 	@ApiOperation(value = "Endpoint Pesquisa por Id Usuário")
 	@Cacheable(value = "cache-pesquisa-usuario")
-	@GetMapping(value = "/pesquisaPorId/{id}")
+	@GetMapping(value = "/pesquisaPorId/{id}", produces = {"application/json", "application/xml"})
 	public ModelUsuarioDTO pesquisaPorId(@PathVariable("id") Long id) {
 		ModelUsuarioDTO modelUsuarioDTO = usuarioService.pesquisaPorId(id);
 		modelUsuarioDTO.add(linkTo(methodOn(UsuarioController.class).pesquisaPorId(id)).withSelfRel());

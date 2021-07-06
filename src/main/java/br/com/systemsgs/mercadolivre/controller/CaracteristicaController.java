@@ -40,7 +40,7 @@ public class CaracteristicaController {
 	
 	@ApiOperation(value = "Endpoint Listar todas Caracteristicas")
 	@Cacheable(value = "cache-caracteristica")
-	@GetMapping(value = "/listaTodas")
+	@GetMapping(value = "/listaTodas", produces = {"application/json", "application/xml"})
 	public List<ModelCaracteristicaDTO> listaCaracteristicas(){
 		List<ModelCaracteristicaDTO> caracteristicas = caracteristicaService.listaCaracteristica();
 		caracteristicas.stream().forEach(c -> c.add(linkTo(methodOn(CaracteristicaController.class).pesquisaPorId(c.getKey())).withSelfRel()));
@@ -50,7 +50,7 @@ public class CaracteristicaController {
 	
 	@ApiOperation(value = "Endpoint Pesquisa por Id Caracteristica")
 	@Cacheable(value = "cache-pesquisa-caracteristica")
-	@GetMapping(value = "/pesquisaPorId/{id}")
+	@GetMapping(value = "/pesquisaPorId/{id}", produces = {"application/json", "application/xml"})
 	public ModelCaracteristicaDTO pesquisaPorId(@PathVariable("id") Long id) {
 		ModelCaracteristicaDTO modelCaracteristicaDTO = caracteristicaService.pesquisaPorId(id);
 		modelCaracteristicaDTO.add(linkTo(methodOn(CaracteristicaController.class).pesquisaPorId(id)).withSelfRel());

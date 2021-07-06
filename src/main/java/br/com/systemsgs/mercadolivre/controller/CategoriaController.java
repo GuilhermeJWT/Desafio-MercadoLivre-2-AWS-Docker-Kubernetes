@@ -39,7 +39,7 @@ public class CategoriaController {
 	
 	@ApiOperation(value = "Endpoint Lista todas Categorias")
 	@Cacheable(value = "cache-categoria")
-	@GetMapping(value = "/listarTodas")
+	@GetMapping(value = "/listarTodas", produces = {"application/json", "application/xml"})
 	public List<ModelCategoriaDTO> listaCategoria(){
 		List<ModelCategoriaDTO> categorias = categoriaService.listarTodasCategorias(); 
 		categorias.stream().forEach(c -> c.add(linkTo(methodOn(CategoriaController.class).pesquisaPorId(c.getKey())).withSelfRel()));
@@ -49,7 +49,7 @@ public class CategoriaController {
 	
 	@ApiOperation(value = "Endpoint Pesquisa por Id Categoria")
 	@Cacheable(value = "cache-pesquisa-categoria")
-	@GetMapping(value = "/pesquisaPorId/{id}")
+	@GetMapping(value = "/pesquisaPorId/{id}", produces = {"application/json", "application/xml"})
 	public ModelCategoriaDTO pesquisaPorId(@PathVariable("id") Long id) {
 		ModelCategoriaDTO modelCategoriaDTO = categoriaService.pesquisaPorId(id);
 		modelCategoriaDTO.add(linkTo(methodOn(CategoriaController.class).pesquisaPorId(id)).withSelfRel());

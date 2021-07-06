@@ -5,7 +5,6 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +40,7 @@ public class ProdutoController {
 	
 	@ApiOperation(value = "Endpoint Lista todos Produtos")
 	@Cacheable(value = "cache-produtos")
-	@GetMapping(value = "/listaTodos")
+	@GetMapping(value = "/listaTodos", produces = {"application/json", "application/xml"})
 	public List<ModelProdutoDTO> listaTodos() {
 		List<ModelProdutoDTO> produtos = produtoService.listaTodos();
 		produtos.stream().forEach(p -> p.add(linkTo(methodOn(ProdutoController.class).pesquisaPorId(p.getKey())).withSelfRel()));
@@ -51,7 +50,7 @@ public class ProdutoController {
 	
 	@ApiOperation(value = "Endpoint Pesquisa por Id Produto")
 	@Cacheable(value = "cache-pesquisa-produto")
-	@GetMapping(value = "/pesquisaPorId/{id}")
+	@GetMapping(value = "/pesquisaPorId/{id}", produces = {"application/json", "application/xml"})
 	public ModelProdutoDTO pesquisaPorId(@PathVariable("id") Long id) {
 		ModelProdutoDTO modelProdutoDTO = produtoService.pesquisaPorId(id);
 		modelProdutoDTO.add(linkTo(methodOn(UsuarioController.class).pesquisaPorId(id)).withSelfRel());
